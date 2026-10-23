@@ -6,6 +6,7 @@ import com.umc.chamados.entity.StatusChamado;
 import com.umc.chamados.repository.ChamadoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,10 @@ public class ChamadoService {
 
     public List<Chamado> listarDoUsuario(String solicitanteId) {
         return chamadoRepository.findBySolicitanteId(solicitanteId);
+    }
+
+    public Chamado buscar(String id) {
+        return chamadoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Chamado não encontrado."));
     }
 }
