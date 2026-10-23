@@ -4,6 +4,7 @@ import com.umc.chamados.dto.AbrirChamadoRequest;
 import com.umc.chamados.entity.Chamado;
 import com.umc.chamados.service.ChamadoService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,12 @@ public class ChamadoController {
     public ResponseEntity<Chamado> abrir(@Valid @RequestBody AbrirChamadoRequest request, @AuthenticationPrincipal Jwt token) {
         Chamado criado = chamadoService.abrir(request, token.getSubject(), token.getClaimAsString("nome"));
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+    }
+
+    // o proprio usuario ve os dele, o tecnico ve de qualquer um
+    @PreAuthorize("#id == authentication.name or hasAuthority('chamados:resolver')")
+    @GetMapping("/usuario/{id}")
+    public List<Chamado> listarDoUsuario(@PathVariable String id) {
+        return chamadoService.listarDoUsuario(id);
     }
 }
