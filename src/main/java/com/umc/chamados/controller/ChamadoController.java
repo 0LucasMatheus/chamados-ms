@@ -1,6 +1,7 @@
 package com.umc.chamados.controller;
 
 import com.umc.chamados.dto.AbrirChamadoRequest;
+import com.umc.chamados.dto.ResolverChamadoRequest;
 import com.umc.chamados.entity.Chamado;
 import com.umc.chamados.service.ChamadoService;
 import jakarta.validation.Valid;
@@ -41,5 +42,11 @@ public class ChamadoController {
     @GetMapping("/{id}")
     public Chamado buscar(@PathVariable String id) {
         return chamadoService.buscar(id);
+    }
+
+    @PreAuthorize("hasAuthority('chamados:resolver')")
+    @PutMapping("/{id}/resolver")
+    public Chamado resolver(@PathVariable String id, @Valid @RequestBody ResolverChamadoRequest request, @AuthenticationPrincipal Jwt token) {
+        return chamadoService.resolver(id, request, token.getSubject(), token.getClaimAsString("nome"));
     }
 }

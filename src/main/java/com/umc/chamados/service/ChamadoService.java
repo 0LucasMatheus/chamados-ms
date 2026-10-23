@@ -1,6 +1,7 @@
 package com.umc.chamados.service;
 
 import com.umc.chamados.dto.AbrirChamadoRequest;
+import com.umc.chamados.dto.ResolverChamadoRequest;
 import com.umc.chamados.entity.Chamado;
 import com.umc.chamados.entity.StatusChamado;
 import com.umc.chamados.repository.ChamadoRepository;
@@ -37,5 +38,22 @@ public class ChamadoService {
     public Chamado buscar(String id) {
         return chamadoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Chamado não encontrado."));
+    }
+
+    public Chamado resolver(String id, ResolverChamadoRequest request, String tecnicoId, String tecnicoNome) {
+        Chamado chamado = buscar(id);
+
+        // resolvido n pode ser alterado de novo
+        if (chamado.getStatus() == StatusChamado.RESOLVIDO) {
+            throw new IllegalStateException("Esse chamado já foi resolvido.");
+        }
+
+        chamado.setSolucao(request.solucao());
+        chamado.setTecnicoId(tecnicoId);
+        chamado.setTecnicoNome(tecnicoNome);
+        chamado.setDataResolucao(LocalDateTime.now());
+        chamado.setStatus(StatusChamado.RESOLVIDO);
+
+        return chamadoRepository.save(chamado);
     }
 }
