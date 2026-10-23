@@ -5,6 +5,7 @@ import com.umc.chamados.entity.Chamado;
 import com.umc.chamados.entity.StatusChamado;
 import com.umc.chamados.repository.ChamadoRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,9 @@ public class ChamadoService {
         chamado.setDataAbertura(LocalDateTime.now());
 
         return chamadoRepository.save(chamado);
+    }
+
+    public List<Chamado> listarDoUsuario(String solicitanteId) {
+        return chamadoRepository.findBySolicitanteId(solicitanteId);
     }
 }
