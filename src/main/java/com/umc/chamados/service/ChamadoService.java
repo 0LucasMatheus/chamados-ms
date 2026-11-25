@@ -31,6 +31,10 @@ public class ChamadoService {
         return chamadoRepository.save(chamado);
     }
 
+    public List<Chamado> listarTodos() {
+        return chamadoRepository.findAll();
+    }
+
     public List<Chamado> listarDoUsuario(String solicitanteId) {
         return chamadoRepository.findBySolicitanteId(solicitanteId);
     }

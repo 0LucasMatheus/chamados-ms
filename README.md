@@ -22,6 +22,7 @@ Esse projeto é a **Atividade Prática M1 - Parte 2 de Engenharia de Software**.
 
 #### Consulta e acompanhamento
 - [x] Listar os chamados de um usuário
+- [x] Técnico lista todos os chamados
 - [x] Consultar um chamado com todos os detalhes e o status
 - [x] Cada usuário só vê os próprios chamados, o técnico vê de todos
 
@@ -37,6 +38,7 @@ Esse projeto é a **Atividade Prática M1 - Parte 2 de Engenharia de Software**.
 | Método | Rota | O que faz |
 |---|---|---|
 | `POST` | `/api/chamados` | abre um chamado |
+| `GET` | `/api/chamados` | lista todos os chamados |
 | `GET` | `/api/chamados/usuario/{id}` | lista os chamados de um usuário |
 | `GET` | `/api/chamados/{id}` | consulta um chamado |
 | `PUT` | `/api/chamados/{id}/resolver` | resolve um chamado |
@@ -62,6 +64,7 @@ Aqui não existe perfil nem role, só permissões. Quem decide qual perfil tem q
 | Ação | Precisa de |
 |---|---|
 | Abrir chamado | `chamados:abrir` |
+| Listar todos os chamados | `chamados:resolver` |
 | Listar chamados de um usuário | ser o próprio usuário ou ter `chamados:resolver` |
 | Consultar chamado | ser quem abriu ou ter `chamados:resolver` |
 | Resolver chamado | `chamados:resolver` |

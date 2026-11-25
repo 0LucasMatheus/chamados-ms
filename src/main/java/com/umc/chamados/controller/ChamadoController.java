@@ -30,6 +30,13 @@ public class ChamadoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
+    // todos os chamados, so pro tecnico
+    @PreAuthorize("hasAuthority('chamados:resolver')")
+    @GetMapping
+    public List<Chamado> listarTodos() {
+        return chamadoService.listarTodos();
+    }
+
     // o proprio usuario ve os dele, o tecnico ve de qualquer um
     @PreAuthorize("#id == authentication.name or hasAuthority('chamados:resolver')")
     @GetMapping("/usuario/{id}")
